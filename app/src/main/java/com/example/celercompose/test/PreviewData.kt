@@ -1,6 +1,6 @@
 package com.example.celercompose.test
 
-import com.example.celercompose.data.PictureItem
+import com.example.celercompose.data.room.PictureItem
 
 val PreviewPictures = listOf(
     PictureItem(id = 1,imageUrl = "https://wpclipart.com/education/animal_numbers/animal_number_1.jpg",videoUrl = "https://media.giphy.com/media/l0ExncehJzexFpRHq/giphy.mp4"),

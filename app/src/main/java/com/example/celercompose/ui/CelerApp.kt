@@ -10,12 +10,11 @@ import androidx.compose.runtime.emptyContent
 import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
-import androidx.compose.ui.viewinterop.viewModel
-import com.example.celercompose.data.PictureItem
+import com.example.celercompose.data.room.PictureItem
 
 @Composable
-fun CelerApp() {
-    val viewModel: CelerViewModel = viewModel()
+fun CelerApp(viewModel: CelerViewModel) {
+//    val viewModel: CelerViewModel = viewModel()
     val picturesState = viewModel.pictures.observeAsState()
     val selectedItem = viewModel.selected.observeAsState()
 
