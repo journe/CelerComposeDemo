@@ -1,1 +1,11 @@
 /.gradle/
+*.iml
+.gradle
+/local.properties
+.idea/*
+!.idea/copyright
+.DS_Store
+/build
+/captures
+.externalNativeBuild
+ktlints

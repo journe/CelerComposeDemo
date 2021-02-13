@@ -11,6 +11,8 @@ import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import com.example.celercompose.data.room.PictureItem
+import com.example.celercompose.ui.item.ItemPicture
+import com.example.celercompose.ui.item.ItemVideo
 
 @Composable
 fun CelerApp(viewModel: CelerViewModel) {

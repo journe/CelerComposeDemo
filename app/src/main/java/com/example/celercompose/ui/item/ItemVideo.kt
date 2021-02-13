@@ -1,4 +1,4 @@
-package com.example.celercompose.ui
+package com.example.celercompose.ui.item
 
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.PaddingValues
