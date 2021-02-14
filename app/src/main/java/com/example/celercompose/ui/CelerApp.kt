@@ -1,109 +1,89 @@
 package com.example.celercompose.ui
 
 import androidx.compose.foundation.layout.*
-import androidx.compose.material.MaterialTheme
-import androidx.compose.material.ScrollableTabRow
-import androidx.compose.material.Tab
-import androidx.compose.material.TabPosition
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.emptyContent
 import androidx.compose.runtime.livedata.observeAsState
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.AmbientAnimationClock
 import androidx.compose.ui.unit.dp
 import com.example.celercompose.data.room.PictureItem
 import com.example.celercompose.ui.item.ItemPicture
 import com.example.celercompose.ui.item.ItemVideo
+import com.example.celercompose.util.Pager
+import com.example.celercompose.util.PagerState
 
 @Composable
 fun CelerApp(viewModel: CelerViewModel) {
-//    val viewModel: CelerViewModel = viewModel()
+
     val picturesState = viewModel.pictures.observeAsState()
-    val selectedItem = viewModel.selected.observeAsState()
 
     Column(Modifier.fillMaxSize()) {
-        Spacer(Modifier.preferredHeight(8.dp))
+        val clock = AmbientAnimationClock.current
+        val pagerState = remember(clock) { PagerState(clock) }
         picturesState.value?.let {
             ItemVideoTabs(
                 categories = it,
-                selectedItem = selectedItem.value!!,
-                selected = viewModel::onSelected,
+                pagerState = pagerState,
                 modifier = Modifier
+                    .wrapContentHeight()
+                    .heightIn(max = 400.dp)
                     .fillMaxWidth()
-                    .height(512.dp)
             )
             Spacer(Modifier.preferredHeight(8.dp))
             ItemPictureTabs(
                 categories = it,
-                selectedItem = selectedItem.value!!,
-                selected = viewModel::onSelected,
+                pagerState = pagerState,
                 modifier = Modifier
+                    .padding(start = 24.dp, top = 16.dp, end = 24.dp)
                     .fillMaxWidth()
-                    .height(128.dp)
+                    .heightIn(128.dp)
             )
         }
     }
 }
 
-private val emptyTabIndicator: @Composable (List<TabPosition>) -> Unit = {}
-
 @Composable
 fun ItemVideoTabs(
+    modifier: Modifier = Modifier,
     categories: List<PictureItem>,
-    selectedItem: PictureItem,
-    selected: (PictureItem) -> Unit,
-    modifier: Modifier = Modifier
+    pagerState: PagerState = run {
+        val clock = AmbientAnimationClock.current
+        remember(clock) { PagerState(clock) }
+    }
 ) {
-    val selectedIndex = categories.indexOfFirst { it == selectedItem }
-    ScrollableTabRow(
-        selectedTabIndex = selectedIndex,
-        divider = emptyContent(), /* Disable the built-in divider */
-        edgePadding = 24.dp,
-        backgroundColor = MaterialTheme.colors.background,
-        indicator = emptyTabIndicator,
+    pagerState.maxPage = (categories.size - 1).coerceAtLeast(0)
+    Pager(
+        state = pagerState,
         modifier = modifier
     ) {
-        categories.forEachIndexed { index, category ->
-            Tab(
-                selected = index == selectedIndex,
-                onClick = { selected(category) }
-            ) {
-                ItemVideo(
-                    videoUrl = selectedItem.videoUrl ,
-                    modifier = Modifier
-                        .fillMaxSize()
-                        .widthIn(320.dp)
-                )
-            }
-        }
+        ItemVideo(
+            videoUrl = categories[page].videoUrl,
+            modifier = Modifier
+                .fillMaxWidth()
+                .wrapContentHeight()
+        )
     }
 }
+
 @Composable
 fun ItemPictureTabs(
+    modifier: Modifier = Modifier,
     categories: List<PictureItem>,
-    selectedItem: PictureItem,
-    selected: (PictureItem) -> Unit,
-    modifier: Modifier = Modifier
+    pagerState: PagerState = run {
+        val clock = AmbientAnimationClock.current
+        remember(clock) { PagerState(clock) }
+    },
 ) {
-    val selectedIndex = categories.indexOfFirst { it == selectedItem }
-    ScrollableTabRow(
-        selectedTabIndex = selectedIndex,
-        divider = emptyContent(), /* Disable the built-in divider */
-        edgePadding = 24.dp,
-        backgroundColor = MaterialTheme.colors.background,
-        indicator = emptyTabIndicator,
+    pagerState.maxPage = (categories.size - 1).coerceAtLeast(0)
+    Pager(
+        state = pagerState,
         modifier = modifier
     ) {
-        categories.forEachIndexed { index, category ->
-            Tab(
-                selected = index == selectedIndex,
-                onClick = { selected(category) }
-            ) {
-                ItemPicture(
-                    url = category.imageUrl,
-                    modifier = Modifier
-                        .padding(horizontal = 64.dp, vertical = 16.dp)
-                )
-            }
-        }
+        ItemPicture(
+            url = categories[page].imageUrl,
+            modifier = Modifier
+                .size(200.dp)
+        )
     }
 }

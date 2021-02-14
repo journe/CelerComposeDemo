@@ -13,7 +13,7 @@ abstract class AppDatabase : RoomDatabase() {
     abstract fun pictureDao(): PictureDao
 
     companion object {
-        const val DATABASE_NAME = "celer-db"
+        private const val DATABASE_NAME = "celer-db"
 
         @Volatile
         private var instance: AppDatabase? = null

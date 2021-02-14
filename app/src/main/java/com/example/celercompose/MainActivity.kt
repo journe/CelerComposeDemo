@@ -31,28 +31,4 @@ class MainActivity : AppCompatActivity() {
             }
         }
     }
-
-}
-
-@Composable
-private fun PlantName(name: String) {
-    Text(
-        text = name,
-        style = MaterialTheme.typography.h5,
-        modifier = Modifier
-            .fillMaxWidth()
-            .padding(horizontal = dimensionResource(R.dimen.margin_small))
-            .wrapContentWidth(Alignment.CenterHorizontally)
-    )
-}
-
-
-@Preview(showBackground = true)
-@Composable
-fun DefaultPreview() {
-    CelerComposeDemoTheme {
-        Column(Modifier.fillMaxWidth()) {
-            PlantName("Apple")
-        }
-    }
 }
