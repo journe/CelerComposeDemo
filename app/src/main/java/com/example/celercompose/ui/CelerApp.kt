@@ -37,7 +37,6 @@ fun CelerApp(viewModel: CelerViewModel) {
                 modifier = Modifier
                     .padding(start = 24.dp, top = 16.dp, end = 24.dp)
                     .fillMaxWidth()
-                    .heightIn(128.dp)
             )
         }
     }
