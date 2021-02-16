@@ -6,8 +6,12 @@ import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.AmbientAnimationClock
+import androidx.compose.ui.platform.AmbientDensity
+import androidx.compose.ui.platform.AmbientWindowInfo
+import androidx.compose.ui.platform.DensityAmbient
 import androidx.compose.ui.unit.dp
 import com.example.celercompose.data.room.PictureItem
+import com.example.celercompose.test.PreviewPictures
 import com.example.celercompose.ui.item.ItemPicture
 import com.example.celercompose.ui.item.ItemVideo
 import com.example.celercompose.util.Pager
@@ -22,6 +26,7 @@ fun CelerApp(viewModel: CelerViewModel) {
         val clock = AmbientAnimationClock.current
         val pagerState = remember(clock) { PagerState(clock) }
         picturesState.value?.let {
+//        PreviewPictures.let {
             ItemVideoTabs(
                 categories = it,
                 pagerState = pagerState,
@@ -60,7 +65,7 @@ fun ItemVideoTabs(
             videoUrl = categories[page].videoUrl,
             modifier = Modifier
                 .fillMaxWidth()
-                .wrapContentHeight()
+                .aspectRatio(1f)
         )
     }
 }
