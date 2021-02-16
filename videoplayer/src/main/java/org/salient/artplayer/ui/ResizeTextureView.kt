@@ -70,19 +70,14 @@ class ResizeTextureView : TextureView {
 
                 val matrix = Matrix()
                 val maxScale = max(sx, sy)
-                //第1步:把视频区移动到View区,使两者中心点重合.
                 matrix.preTranslate(
                     (width.toFloat() - mVideoWidth) / 2,
                     (height.toFloat() - mVideoHeight) / 2
                 )
-
-                //第2步:因为默认视频是fitXY的形式显示的,所以首先要缩放还原回来.
                 matrix.preScale(
                     mVideoWidth / width.toFloat(),
                     mVideoHeight / height.toFloat()
                 )
-
-                //第3步,等比例放大或缩小,直到视频区的一边超过View一边, 另一边与View的另一边相等. 因为超过的部分超出了View的范围,所以是不会显示的,相当于裁剪了.
                 matrix.postScale(maxScale, maxScale, width.toFloat() / 2, height.toFloat() / 2)
                 setTransform(matrix)
             }
